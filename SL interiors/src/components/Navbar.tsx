@@ -11,7 +11,7 @@ const navLinks = [
   { label: "Contact", path: "/contact" },
 ];
 
-const LOGO_SRC = "/SL%20logo.png";
+const LOGO_SRC = "/favicon.png";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
