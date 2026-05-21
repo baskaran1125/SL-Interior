@@ -47,8 +47,8 @@ const AdminLogin = () => {
       <div className="relative w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 text-white text-2xl font-bold mb-6 shadow-lg shadow-amber-500/20">
-            SL
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-zinc-900 mb-6 shadow-lg shadow-amber-500/10 overflow-hidden">
+            <img src="/favicon.png" alt="SL Interior" className="w-full h-full object-contain" />
           </div>
           <h1 className="text-2xl font-bold text-white tracking-wider">SL INTERIORS</h1>
           <p className="text-zinc-500 text-sm mt-2">Admin Dashboard</p>

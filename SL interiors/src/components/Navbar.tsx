@@ -42,7 +42,7 @@ const Navbar = () => {
             <img
               src={LOGO_SRC}
               alt="SL Interiors logo"
-              className="h-20 w-20 object-contain scale-125"
+              className="h-12 w-12 object-contain"
             />
             <span className="font-display text-xl tracking-[0.16em] text-white">SL INTERIORS</span>
           </Link>
