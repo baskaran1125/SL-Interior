@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 33% 96%;
+    --foreground: 0 0% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 20%;
+
+    --primary: 0 0% 10%;
+    --primary-foreground: 40 33% 96%;
+
+    --secondary: 40 33% 96%;
+    --secondary-foreground: 0 0% 10%;
+
+    --muted: 40 20% 92%;
+    --muted-foreground: 0 0% 40%;
+
+    --accent: 40 45% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 40 20% 88%;
+    --input: 40 20% 88%;
+    --ring: 40 45% 55%;
+
+    --radius: 0.25rem;
+
+    --gold: 40 45% 55%;
+    --gold-light: 40 40% 70%;
+    --bone: 40 33% 96%;
+    --charcoal: 0 0% 10%;
+    --soft-black: 0 0% 20%;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 20%;
+    --sidebar-primary: 0 0% 10%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 40 33% 96%;
+    --sidebar-accent-foreground: 0 0% 10%;
+    --sidebar-border: 40 20% 88%;
+    --sidebar-ring: 40 45% 55%;
+  }
+
+  .dark {
+    --background: 0 0% 7%;
+    --foreground: 40 20% 90%;
+
+    --card: 0 0% 10%;
+    --card-foreground: 40 20% 90%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 40 20% 90%;
+
+    --primary: 40 33% 96%;
+    --primary-foreground: 0 0% 10%;
+
+    --secondary: 0 0% 14%;
+    --secondary-foreground: 40 20% 90%;
+
+    --muted: 0 0% 14%;
+    --muted-foreground: 40 10% 60%;
+
+    --accent: 40 45% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 40 45% 55%;
+
+    --gold: 40 45% 55%;
+    --gold-light: 40 40% 45%;
+    --bone: 0 0% 7%;
+    --charcoal: 40 20% 90%;
+    --soft-black: 40 20% 85%;
+
+    --sidebar-background: 0 0% 10%;
+    --sidebar-foreground: 40 20% 90%;
+    --sidebar-primary: 40 33% 96%;
+    --sidebar-primary-foreground: 0 0% 10%;
+    --sidebar-accent: 0 0% 14%;
+    --sidebar-accent-foreground: 40 20% 90%;
+    --sidebar-border: 0 0% 18%;
+    --sidebar-ring: 40 45% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    scroll-behavior: smooth;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-accent/30 hover:bg-accent/60 transition-colors rounded-full;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
+  }
+}
+
+@layer components {
+  .section-padding {
+    @apply py-24 md:py-32 lg:py-40;
+  }
+
+  .container-luxury {
+    @apply max-w-7xl mx-auto px-6 md:px-8 lg:px-12;
+  }
+
+  .gold-line {
+    @apply w-12 h-[1px] bg-accent;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 1.2s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes scaleIn {
+    from { transform: scale(1.05); }
+    to { transform: scale(1); }
+  }
+}
