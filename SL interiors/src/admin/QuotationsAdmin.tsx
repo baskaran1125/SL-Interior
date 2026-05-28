@@ -93,23 +93,35 @@ const QuotationsAdmin = () => {
         useCORS: true,
         backgroundColor: '#ffffff',
         logging: false,
+        windowWidth: previewRef.current.scrollWidth,
+        windowHeight: previewRef.current.scrollHeight,
       });
-      const imgData = canvas.toDataURL('image/png');
+
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
       const pdfW = pdf.internal.pageSize.getWidth();
-      const pdfH = (canvas.height * pdfW) / canvas.width;
+      const pdfH = pdf.internal.pageSize.getHeight();
 
-      // If content is taller than A4, add extra pages
-      const pageH = pdf.internal.pageSize.getHeight();
-      if (pdfH <= pageH) {
+      // Calculate how many canvas pixels fit in one A4 page
+      const canvasPageH = Math.floor((canvas.width * pdfH) / pdfW);
+      const totalPages = Math.ceil(canvas.height / canvasPageH);
+
+      for (let page = 0; page < totalPages; page++) {
+        if (page > 0) pdf.addPage();
+
+        // Slice this page's strip from the full canvas
+        const srcY = page * canvasPageH;
+        const srcH = Math.min(canvasPageH, canvas.height - srcY);
+
+        const pageCanvas = document.createElement('canvas');
+        pageCanvas.width = canvas.width;
+        pageCanvas.height = canvasPageH; // always full page height so image fills the page
+        const ctx = pageCanvas.getContext('2d')!;
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
+        ctx.drawImage(canvas, 0, srcY, canvas.width, srcH, 0, 0, canvas.width, srcH);
+
+        const imgData = pageCanvas.toDataURL('image/png');
         pdf.addImage(imgData, 'PNG', 0, 0, pdfW, pdfH);
-      } else {
-        let yOffset = 0;
-        while (yOffset < pdfH) {
-          if (yOffset > 0) pdf.addPage();
-          pdf.addImage(imgData, 'PNG', 0, -yOffset, pdfW, pdfH);
-          yOffset += pageH;
-        }
       }
 
       const filename = `SL_Interior_${(clientName || 'Quotation').replace(/\s+/g, '_')}_${quotationDate}.pdf`;
