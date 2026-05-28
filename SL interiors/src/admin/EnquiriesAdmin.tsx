@@ -50,14 +50,14 @@ const EnquiriesAdmin = () => {
     <div className="space-y-6">
       <div><h1 className="text-2xl font-bold text-white">Enquiries</h1><p className="text-zinc-500 text-sm mt-1">Manage client enquiries and contact submissions</p></div>
 
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1 max-w-md"><Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" /><input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search enquiries..." className={`${ic} pl-10`} /></div>
-        <div className="flex gap-2">{(['all', 'new', 'contacted', 'converted'] as const).map((s) => (<button key={s} onClick={() => setStatusFilter(s)} className={`px-3 py-1.5 text-xs rounded-lg capitalize transition-all ${statusFilter === s ? 'bg-amber-600 text-white' : 'bg-zinc-800 text-zinc-400 hover:text-white'}`}>{s}{s !== 'all' && ` (${enquiries.filter(e => e.status === s).length})`}</button>))}</div>
+      <div className="flex flex-col gap-3">
+        <div className="relative flex-1"><Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" /><input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search enquiries..." className={`${ic} pl-10`} /></div>
+        <div className="flex flex-wrap gap-2">{(['all', 'new', 'contacted', 'converted'] as const).map((s) => (<button key={s} onClick={() => setStatusFilter(s)} className={`px-3 py-1.5 text-xs rounded-lg capitalize transition-all ${statusFilter === s ? 'bg-amber-600 text-white' : 'bg-zinc-800 text-zinc-400 hover:text-white'}`}>{s}{s !== 'all' && ` (${enquiries.filter(e => e.status === s).length})`}</button>))}</div>
       </div>
 
       <div className="flex gap-6">
         {/* List */}
-        <div className={`flex-1 ${selected ? 'hidden lg:block' : ''}`}>
+        <div className={`flex-1 min-w-0 ${selected ? 'hidden lg:block' : ''}`}>
           {filtered.length === 0 ? (
             <EmptyState icon={Mail} title="No enquiries" description={search ? 'Try a different search' : 'No enquiries yet'} />
           ) : (
@@ -77,13 +77,13 @@ const EnquiriesAdmin = () => {
           )}
         </div>
 
-        {/* Detail */}
+        {/* Detail — full screen on mobile, side panel on desktop */}
         {selected && (
-          <div className="w-full lg:w-[400px] shrink-0">
-            <div className="bg-zinc-900/50 border border-zinc-800/50 rounded-xl p-6 sticky top-6">
+          <div className="fixed inset-0 z-50 bg-zinc-950 overflow-y-auto lg:static lg:inset-auto lg:z-auto lg:bg-transparent lg:w-[400px] lg:shrink-0">
+            <div className="bg-zinc-900/50 border border-zinc-800/50 rounded-xl p-5 sm:p-6 lg:sticky lg:top-6 min-h-screen lg:min-h-0">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-semibold text-white">{selected.name}</h3>
-                <button onClick={() => setSelected(null)} className="lg:hidden text-zinc-400 hover:text-white"><span className="text-xs">← Back</span></button>
+                <button onClick={() => setSelected(null)} className="text-zinc-400 hover:text-white flex items-center gap-1 text-sm border border-zinc-700 rounded-lg px-3 py-1.5 lg:border-0 lg:p-0 lg:text-xs"><span>← Back</span></button>
               </div>
               <div className="space-y-4">
                 <div className="flex items-center gap-3 text-sm"><Mail className="w-4 h-4 text-zinc-500" /><span className="text-zinc-300">{selected.email}</span></div>

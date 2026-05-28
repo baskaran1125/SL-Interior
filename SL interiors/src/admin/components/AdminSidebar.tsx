@@ -99,9 +99,10 @@ const AdminSidebar = () => {
       {/* Mobile Toggle */}
       <button
         onClick={() => setMobileOpen(!mobileOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-lg bg-zinc-900 text-white shadow-lg"
+        className="lg:hidden fixed top-3.5 left-4 z-50 p-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-white shadow-lg"
+        aria-label="Toggle menu"
       >
-        {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+        {mobileOpen ? <X size={18} /> : <Menu size={18} />}
       </button>
 
       {/* Mobile Overlay */}

@@ -148,35 +148,35 @@ const QuotationsAdmin = () => {
   return (
     <div className="space-y-6">
       {/* Page header */}
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-white">Quotation Generator</h1>
-          <p className="text-zinc-500 text-sm mt-1">Create professional quotations and export as PDF or share via WhatsApp</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-white">Quotation Generator</h1>
+          <p className="text-zinc-500 text-sm mt-1 hidden sm:block">Create professional quotations and export as PDF or share via WhatsApp</p>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 flex-wrap">
           <button
             onClick={resetForm}
             className="flex items-center gap-2 px-3 py-2.5 text-zinc-400 border border-zinc-700/50 rounded-lg text-sm hover:text-white hover:border-zinc-600 transition-colors"
             title="Reset form"
           >
             <RotateCcw className="w-4 h-4" />
-            Reset
+            <span className="hidden sm:inline">Reset</span>
           </button>
           <button
             onClick={shareWhatsApp}
             disabled={generating}
-            className="flex items-center gap-2 px-4 py-2.5 bg-green-600/20 text-green-400 border border-green-600/30 rounded-lg text-sm hover:bg-green-600/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-3 sm:px-4 py-2.5 bg-green-600/20 text-green-400 border border-green-600/30 rounded-lg text-sm hover:bg-green-600/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <MessageCircle className="w-4 h-4" />
-            WhatsApp
+            <span className="hidden sm:inline">WhatsApp</span>
           </button>
           <button
             onClick={generatePDF}
             disabled={generating}
-            className="flex items-center gap-2 px-4 py-2.5 bg-amber-500 text-zinc-900 rounded-lg text-sm font-semibold hover:bg-amber-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-3 sm:px-4 py-2.5 bg-amber-500 text-zinc-900 rounded-lg text-sm font-semibold hover:bg-amber-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Download className="w-4 h-4" />
-            {generating ? 'Generating…' : 'Download PDF'}
+            {generating ? 'Generating…' : <><span className="hidden sm:inline">Download </span>PDF</>}
           </button>
         </div>
       </div>
@@ -227,32 +227,67 @@ const QuotationsAdmin = () => {
               </button>
             </div>
 
-            {/* Column headers */}
-            <div className="grid grid-cols-[1fr,90px,90px,80px,28px] gap-2 mb-1 px-1">
+            {/* Column headers — hidden on mobile */}
+            <div className="hidden sm:grid grid-cols-[1fr,90px,90px,80px,28px] gap-2 mb-1 px-1">
               {['Description', 'Dimensions', 'Calculation', 'Amount ₹', ''].map(h => (
                 <span key={h} className="text-[10px] text-zinc-600 uppercase tracking-wider">{h}</span>
               ))}
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-3 sm:space-y-2">
               {projectItems.map(item => (
-                <div key={item.id} className="grid grid-cols-[1fr,90px,90px,80px,28px] gap-2 items-center">
-                  <input type="text" value={item.description}
-                    onChange={e => updateProject(item.id, 'description', e.target.value)}
-                    placeholder="Wall Box" className={inputCls + ' text-xs'} />
-                  <input type="text" value={item.dimensions}
-                    onChange={e => updateProject(item.id, 'dimensions', e.target.value)}
-                    placeholder="5×2" className={inputCls + ' text-xs'} />
-                  <input type="text" value={item.calculation}
-                    onChange={e => updateProject(item.id, 'calculation', e.target.value)}
-                    placeholder="10×950" className={inputCls + ' text-xs'} />
-                  <input type="number" value={item.amount || ''}
-                    onChange={e => updateProject(item.id, 'amount', parseFloat(e.target.value) || 0)}
-                    placeholder="0" className={inputCls + ' text-xs'} />
-                  <button onClick={() => removeProject(item.id)} disabled={projectItems.length === 1}
-                    className="p-1 text-zinc-700 hover:text-red-400 transition-colors disabled:opacity-20">
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
+                <div key={item.id}>
+                  {/* Desktop row */}
+                  <div className="hidden sm:grid grid-cols-[1fr,90px,90px,80px,28px] gap-2 items-center">
+                    <input type="text" value={item.description}
+                      onChange={e => updateProject(item.id, 'description', e.target.value)}
+                      placeholder="Wall Box" className={inputCls + ' text-xs'} />
+                    <input type="text" value={item.dimensions}
+                      onChange={e => updateProject(item.id, 'dimensions', e.target.value)}
+                      placeholder="5×2" className={inputCls + ' text-xs'} />
+                    <input type="text" value={item.calculation}
+                      onChange={e => updateProject(item.id, 'calculation', e.target.value)}
+                      placeholder="10×950" className={inputCls + ' text-xs'} />
+                    <input type="number" value={item.amount || ''}
+                      onChange={e => updateProject(item.id, 'amount', parseFloat(e.target.value) || 0)}
+                      placeholder="0" className={inputCls + ' text-xs'} />
+                    <button onClick={() => removeProject(item.id)} disabled={projectItems.length === 1}
+                      className="p-1 text-zinc-700 hover:text-red-400 transition-colors disabled:opacity-20">
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                  {/* Mobile card */}
+                  <div className="sm:hidden bg-zinc-800/40 rounded-lg p-3 space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <input type="text" value={item.description}
+                        onChange={e => updateProject(item.id, 'description', e.target.value)}
+                        placeholder="Description" className={inputCls + ' text-xs flex-1'} />
+                      <button onClick={() => removeProject(item.id)} disabled={projectItems.length === 1}
+                        className="p-1 text-zinc-700 hover:text-red-400 transition-colors disabled:opacity-20 shrink-0">
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2">
+                      <div>
+                        <span className="text-[10px] text-zinc-600 uppercase block mb-1">Dim.</span>
+                        <input type="text" value={item.dimensions}
+                          onChange={e => updateProject(item.id, 'dimensions', e.target.value)}
+                          placeholder="5×2" className={inputCls + ' text-xs'} />
+                      </div>
+                      <div>
+                        <span className="text-[10px] text-zinc-600 uppercase block mb-1">Calc.</span>
+                        <input type="text" value={item.calculation}
+                          onChange={e => updateProject(item.id, 'calculation', e.target.value)}
+                          placeholder="10×950" className={inputCls + ' text-xs'} />
+                      </div>
+                      <div>
+                        <span className="text-[10px] text-zinc-600 uppercase block mb-1">Amount ₹</span>
+                        <input type="number" value={item.amount || ''}
+                          onChange={e => updateProject(item.id, 'amount', parseFloat(e.target.value) || 0)}
+                          placeholder="0" className={inputCls + ' text-xs'} />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -273,28 +308,58 @@ const QuotationsAdmin = () => {
               </button>
             </div>
 
-            <div className="grid grid-cols-[1fr,120px,80px,28px] gap-2 mb-1 px-1">
+            {/* Column headers — hidden on mobile */}
+            <div className="hidden sm:grid grid-cols-[1fr,120px,80px,28px] gap-2 mb-1 px-1">
               {['Description', 'Calculation', 'Amount ₹', ''].map(h => (
                 <span key={h} className="text-[10px] text-zinc-600 uppercase tracking-wider">{h}</span>
               ))}
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-3 sm:space-y-2">
               {extraItems.map(item => (
-                <div key={item.id} className="grid grid-cols-[1fr,120px,80px,28px] gap-2 items-center">
-                  <input type="text" value={item.description}
-                    onChange={e => updateExtra(item.id, 'description', e.target.value)}
-                    placeholder="WPC Window" className={inputCls + ' text-xs'} />
-                  <input type="text" value={item.calculation}
-                    onChange={e => updateExtra(item.id, 'calculation', e.target.value)}
-                    placeholder="24×500" className={inputCls + ' text-xs'} />
-                  <input type="number" value={item.amount || ''}
-                    onChange={e => updateExtra(item.id, 'amount', parseFloat(e.target.value) || 0)}
-                    placeholder="0" className={inputCls + ' text-xs'} />
-                  <button onClick={() => removeExtra(item.id)} disabled={extraItems.length === 1}
-                    className="p-1 text-zinc-700 hover:text-red-400 transition-colors disabled:opacity-20">
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
+                <div key={item.id}>
+                  {/* Desktop row */}
+                  <div className="hidden sm:grid grid-cols-[1fr,120px,80px,28px] gap-2 items-center">
+                    <input type="text" value={item.description}
+                      onChange={e => updateExtra(item.id, 'description', e.target.value)}
+                      placeholder="WPC Window" className={inputCls + ' text-xs'} />
+                    <input type="text" value={item.calculation}
+                      onChange={e => updateExtra(item.id, 'calculation', e.target.value)}
+                      placeholder="24×500" className={inputCls + ' text-xs'} />
+                    <input type="number" value={item.amount || ''}
+                      onChange={e => updateExtra(item.id, 'amount', parseFloat(e.target.value) || 0)}
+                      placeholder="0" className={inputCls + ' text-xs'} />
+                    <button onClick={() => removeExtra(item.id)} disabled={extraItems.length === 1}
+                      className="p-1 text-zinc-700 hover:text-red-400 transition-colors disabled:opacity-20">
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                  {/* Mobile card */}
+                  <div className="sm:hidden bg-zinc-800/40 rounded-lg p-3 space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <input type="text" value={item.description}
+                        onChange={e => updateExtra(item.id, 'description', e.target.value)}
+                        placeholder="Description" className={inputCls + ' text-xs flex-1'} />
+                      <button onClick={() => removeExtra(item.id)} disabled={extraItems.length === 1}
+                        className="p-1 text-zinc-700 hover:text-red-400 transition-colors disabled:opacity-20 shrink-0">
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <span className="text-[10px] text-zinc-600 uppercase block mb-1">Calculation</span>
+                        <input type="text" value={item.calculation}
+                          onChange={e => updateExtra(item.id, 'calculation', e.target.value)}
+                          placeholder="24×500" className={inputCls + ' text-xs'} />
+                      </div>
+                      <div>
+                        <span className="text-[10px] text-zinc-600 uppercase block mb-1">Amount ₹</span>
+                        <input type="number" value={item.amount || ''}
+                          onChange={e => updateExtra(item.id, 'amount', parseFloat(e.target.value) || 0)}
+                          placeholder="0" className={inputCls + ' text-xs'} />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -307,9 +372,9 @@ const QuotationsAdmin = () => {
         </div>
 
         {/* ── RIGHT: Live Preview ── */}
-        <div className="sticky top-6">
+        <div className="xl:sticky xl:top-6">
           <p className="text-[11px] text-zinc-500 uppercase tracking-wider mb-3">Live Preview — PDF Output</p>
-          <div className="rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/5">
+          <div className="rounded-xl overflow-x-auto shadow-2xl ring-1 ring-white/5">
             {/* The div captured by html2canvas */}
             <div
               ref={previewRef}
